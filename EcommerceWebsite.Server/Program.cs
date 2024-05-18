@@ -1,18 +1,19 @@
 using EcommerceWebsite.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+Log.Logger = new LoggerConfiguration().MinimumLevel.Debug().WriteTo.File("log/EcommerceWebsiteLogs", rollingInterval: RollingInterval.Day).CreateLogger();
+builder.Host.UseSerilog();
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddControllers().AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-var app = builder.Build();
 builder.Services.AddDbContext<ApplicationDbContext>(Options => Options.UseSqlServer(builder.Configuration.GetConnectionString
     ("DefaultConnction")));
+var app = builder.Build();
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
