@@ -13,13 +13,9 @@ namespace EcommerceWebsite.Server.Controllers
         private readonly ApplicationDbContext _db;
         private readonly ILogger<ProductController> _logger;
 
-        public ProductController(ApplicationDbContext db)
+        public ProductController(ApplicationDbContext db, ILogger<ProductController> logger = null)
         {
             _db = db;
-        }
-
-        public ProductController(ILogger<ProductController> logger)
-        {
             _logger = logger;
         }
 
@@ -30,6 +26,7 @@ namespace EcommerceWebsite.Server.Controllers
         public ActionResult<IEnumerable<Product>> GetProducts()
         {
             _logger.LogInformation("Getting all products");
+            //return Ok(products);
             return Ok(_db.Products.ToList());
         }
 

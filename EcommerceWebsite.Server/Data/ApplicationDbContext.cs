@@ -17,5 +17,16 @@ namespace EcommerceWebsite.Server.Data
         public DbSet<OrderLine> OrderLines { get; set; }
         public DbSet<Picture> Pictures { get; set; }
         public DbSet<Product> Products { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Product>().HasData(
+                new Product()
+                {
+                    Id = 1,
+                    ProductName = "ProductTest",
+                    UnitPrice = 18.3M
+                });
+        }
     }
 }
